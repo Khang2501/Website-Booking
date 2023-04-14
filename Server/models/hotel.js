@@ -13,6 +13,7 @@ const hotelSchema = new Schema({
   rating: { type: Number, required: true },
   featured: { type: Boolean, required: true },
   rooms: [{ type: mongoose.Types.ObjectId, required: true, ref: "Room" }],
+  cheapestPrice: { type: Number, required: true },
 });
 
 module.exports = mongoose.model("Hotel", hotelSchema);
