@@ -9,13 +9,25 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 
+import { useEffect } from "react";
+import axios from "axios";
+
 const List = () => {
+  
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+  const [isLoading, setIsLoading] = useState(false)
+  const [dataRooms, setDataRooms] = useState([])
 
+  useEffect(()=>{
+    axios.get(`http://localhost:5000/rooms?location=${location.state.destination}&peo=${Number(location.state.options.adult) + Number(location.state.options.children)}&room=${location.state.options.room}`)
+    .then(result=>{setDataRooms(result.data); setIsLoading(true)})
+    .catch(err=>console.log(err))
+  },[location]) 
+  
   return (
     <div>
       <Navbar />
@@ -89,9 +101,9 @@ const List = () => {
             <button>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            {isLoading && dataRooms.map(data=>{
+              return <SearchItem key={data.name} state={data}/>
+            })} 
           </div>
         </div>
       </div>

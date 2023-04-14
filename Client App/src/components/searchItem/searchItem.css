@@ -42,6 +42,10 @@
 .siSubtitle{
   font-size: 12px;
   font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 320px;
 }
 
 .siFeatures{
